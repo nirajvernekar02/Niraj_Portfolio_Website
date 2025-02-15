@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niraj Vernekar - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #111827;
+            color: white;
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #34D399;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 2rem;
+            }
+        }
+
+        .nav-link {
+            text-transform: capitalize;
+            color: #D1D5DB;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: #34D399;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 5rem;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 12rem;
+            height: 12rem;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #34D399;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #9CA3AF;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s 0.2s forwards;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s 0.4s forwards;
+        }
+
+        .social-link {
+            color: #9CA3AF;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: white;
+            transform: translateY(-4px);
+        }
+
+        .section {
+            padding: 5rem 1.5rem;
+        }
+
+        .section.gray {
+            background-color: #1F2937;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #34D399;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #D1D5DB;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .skills-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .skill-card {
+            background-color: #111827;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .skill-card.visible {
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .skill-icon {
+            color: #34D399;
+            margin-bottom: 1rem;
+        }
+
+        .skill-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-desc {
+            color: #9CA3AF;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .project-card {
+            background-color: #1F2937;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .project-card.visible {
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #34D399;
+        }
+
+        .project-desc {
+            color: #9CA3AF;
+            margin-bottom: 1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tag {
+            background-color: #374151;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .project-highlights {
+            color: #9CA3AF;
+            font-size: 0.875rem;
+            list-style-type: none;
+        }
+
+        .project-highlights li {
+            margin-bottom: 0.25rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .project-highlights li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #34D399;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .achievements-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .achievement-card {
+            background-color: #111827;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            transform: translateX(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease;
+            border-left: 4px solid #34D399;
+        }
+
+        .achievement-card:hover {
+            transform: scale(1.02);
+        }
+
+        .achievement-card.visible {
+            animation: fadeInRight 0.6s forwards;
+        }
+
+        .experience-timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            padding-bottom: 2rem;
+            border-left: 2px solid #34D399;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            top: 0;
+            width: 1rem;
+            height: 1rem;
+            background-color: #34D399;
+            border-radius: 50%;
+        }
+
+        .timeline-date {
+            color: #34D399;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-company {
+            color: #9CA3AF;
+            margin-bottom: 1rem;
+        }
+
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .certifications-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .certification-card {
+            background-color: #1F2937;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .certification-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .certification-card.visible {
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .certification-title {
+            color: #34D399;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .certification-issuer {
+            color: #9CA3AF;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .contact-info {
+            text-align: center;
+            color: #9CA3AF;
+            margin-top: 2rem;
+        }
+
+        .contact-info p {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <div class="logo">NV</div>
+            <div class="nav-links">
+                <button class="nav-link active" data-section="home">Home</button>
+                <button class="nav-link" data-section="about">About</button>
+                <button class="nav-link" data-section="skills">Skills</button>
+                <button class="nav-link" data-section="experience">Experience</button>
+                <button class="nav-link" data-section="projects">Projects</button>
+                <button class="nav-link" data-section="achievements">Achievements</button>
+                <button class="nav-link" data-section="certifications">Certifications</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="profile-img">
+                <img src="/api/placeholder/192/192" alt="Niraj Vernekar">
+            </div>
+            <h1>Niraj Vernekar</h1>
+            <p>Full Stack Developer | DevOps Engineer | Blockchain Enthusiast</p>
+            <div class="social-links">
+                <a href="https://github.com/nirajvernekar02" target="_blank" class="social-link">
+                    <i data-lucide="github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/niraj-vernekar-691875196/" target="_blank" class="social-link">
+                    <i data-lucide="linkedin"></i>
+                </a>
+                <a href="mailto:nirajvernekar02@gmail.com" class="social-link">
+                    <i data-lucide="mail"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section gray" id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <p>I am an enthusiastic Engineering student from KLS GIT, Belagavi, driven by a deep passion for the MERN Stack, Machine Learning, Competitive Programming, and Open-Source Contribution. With a hands-on learning approach, I have consistently demonstrated the ability to tackle complex problems and deliver innovative solutions.</p>
+            <div class="contact-info">
+                <p>📞 8217787117</p>
+                <p>📧 nirajvernekar02@gmail.com</p>
+                <p>📍 CTS 5521 7th Cross Shastri Nagar, Belgaum, 590001</p>
+            </div>
+        </div>
+    </section>
+
+ <section class="section" id="skills">
+        <h2 class="section-title">Technical Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i data-lucide="code-2"></i>
+                </div>
+                <h3 class="skill-title">Programming Languages</h3>
+                <p class="skill-desc">JavaScript (Proficient), Python, Java, C/C++, HTML/CSS</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i data-lucide="layout-template"></i>
+                </div>
+                <h3 class="skill-title">Frontend</h3>
+                <p class="skill-desc">React.js, Next.js, Tailwind CSS, Material UI, Bootstrap, React Native</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i data-lucide="server"></i>
+                </div>
+                <h3 class="skill-title">Backend</h3>
+                <p class="skill-desc">Node.js, Express.js, Python Flask, Django</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i data-lucide="database"></i>
+                </div>
+                <h3 class="skill-title">Databases</h3>
+                <p class="skill-desc">MongoDB (NoSQL), MySQL (Relational)</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i data-lucide="cloud"></i>
+                </div>
+                <h3 class="skill-title">Cloud & DevOps</h3>
+                <p class="skill-desc">AWS, Docker, YAML, Git, CI/CD Pipelines</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i data-lucide="shield"></i>
+                </div>
+                <h3 class="skill-title">Security</h3>
+                <p class="skill-desc">Cybersecurity Fundamentals, Ethical Hacking</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i data-lucide="boxes"></i>
+                </div>
+                <h3 class="skill-title">Blockchain</h3>
+                <p class="skill-desc">Smart Contracts, Ganache, Web3</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i data-lucide="tool"></i>
+                </div>
+                <h3 class="skill-title">Developer Tools</h3>
+                <p class="skill-desc">Git, VS Code, Postman, Docker Desktop</p>
+            </div>
+        </div>
+    </section>
+    
+        <section class="section gray" id="experience">
+            <h2 class="section-title">Work Experience</h2>
+            <div class="experience-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">July 2024 - Present</div>
+                    <h3 class="timeline-title">DevOps Lead & Team Leader</h3>
+                    <div class="timeline-company">Eyesec Cyber Security, Belgaum</div>
+                    <ul class="project-highlights">
+                        <li>Leading the development of an AI-powered interview preparation platform</li>
+                        <li>Spearheading ChatGPT AI integration for automated question generation</li>
+                        <li>Implementing data analytics solutions for user progress tracking</li>
+                        <li>Managing cloud-based architecture and deployment</li>
+                        <li>Coordinating cross-functional teams and CI/CD processes</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Feb 2023 - July 2024</div>
+                    <h3 class="timeline-title">Backend Developer Intern</h3>
+                    <div class="timeline-company">Ajinkya Technologies</div>
+                    <ul class="project-highlights">
+                        <li>Developed retirement and pension fund management system</li>
+                        <li>Created VSOP and checklist management solution using MERN stack</li>
+                        <li>Deployed projects on VPS cloud servers and shared hosting</li>
+                        <li>Led development teams and managed project timelines</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    
+        <section class="section" id="projects">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">AI-Powered Interview Platform</h3>
+                        <p class="project-desc">Cutting-edge interview preparation tool with AI-generated questions</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">MERN Stack</span>
+                            <span class="tech-tag">OpenAI API</span>
+                            <span class="tech-tag">JSON Server</span>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>AI-powered question generation</li>
+                            <li>User authentication system</li>
+                            <li>Real-time interactions</li>
+                            <li>Progress tracking visualization</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">Anna Seva</h3>
+                        <p class="project-desc">Donation management system for restaurants with QR tracking</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">React.js</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">JWT</span>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Donation management system</li>
+                            <li>NGO request system</li>
+                            <li>QR code tracking</li>
+                            <li>Role-based access control</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">Runner Chart & Foundry Management</h3>
+                        <p class="project-desc">Comprehensive foundry management with real-time tracking</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">MERN Stack</span>
+                            <span class="tech-tag">Data Visualization</span>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Real-time production tracking</li>
+                            <li>Performance analytics</li>
+                            <li>Resource optimization</li>
+                            <li>Data-driven insights</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">Blockchain Certificate System</h3>
+                        <p class="project-desc">Secure certificate generation using blockchain</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Python Flask</span>
+                            <span class="tech-tag">Ganache</span>
+                            <span class="tech-tag">Blockchain</span>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Secure certificate generation</li>
+                            <li>Blockchain storage</li>
+                            <li>Verification mechanism</li>
+                            <li>RESTful APIs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <section class="section gray" id="achievements">
+            <h2 class="section-title">Achievements</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card">Smart India Hackathon Finalist 2024</div>
+                <div class="achievement-card">First Prize - BelPy Python Conference National Level Hackathon</div>
+                <div class="achievement-card">First Prize - Belgaum Zonal Hackathon</div>
+                <div class="achievement-card">First Prize - Aura Hackathon, KLS Gogte Institute of Technology</div>
+                <div class="achievement-card">Second Prize - National Level Hackathon, BEC Bagalkot</div>
+                <div class="achievement-card">Second Prize - National Level Hackathon, TCE Gadag</div>
+                <div class="achievement-card">5-Star rating in Java & Python on HackerRank</div>
+                <div class="achievement-card">Third Prize - 4 Hours Hackathon, JCE Belgaum</div>
+            </div>
+        </section>
+    
+        <section class="section" id="certifications">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certifications-grid">
+                <div class="certification-card">
+                    <h3 class="certification-title">Blockchain Certification Training</h3>
+                    <p class="certification-issuer">SkillUp Online | Oct 2023</p>
+                    <p class="skill-desc">Gained expertise in blockchain technology and its practical applications.</p>
+                </div>
+                <div class="certification-card">
+                    <h3 class="certification-title">MongoDB and Administration</h3>
+                    <p class="certification-issuer">SkillUp Online | May 2023</p>
+                    <p class="skill-desc">Proven skills in MongoDB database management and optimization.</p>
+                </div>
+                <div class="certification-card">
+                    <h3 class="certification-title">Ethical Hacking For Beginners</h3>
+                    <p class="certification-issuer">SkillUp Online | Oct 2022</p>
+                    <p class="skill-desc">Fundamental knowledge of cybersecurity and ethical hacking principles.</p>
+                </div>
+                <div class="certification-card">
+                    <h3 class="certification-title">Programming with Python</h3>
+                    <p class="certification-issuer">Udemy | Jan 2020</p>
+                    <p class="skill-desc">Solid foundation in Python programming through practical exercises.</p>
+                </div>
+            </div>
+        </section>
+    
+        <script>
+            // Initialize Lucide icons
+            lucide.createIcons();
+    
+            // Intersection Observer for animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+    
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+    
+            // Observe all animated elements
+            document.querySelectorAll('.skill-card, .project-card, .achievement-card, .certification-card').forEach(el => {
+                observer.observe(el);
+            });
+    
+            // Navigation functionality
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+    
+            // Update active nav link based on scroll position
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id') || 'home';
+                    }
+                });
+    
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+    
+            // Smooth scroll to section when clicking nav links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = link.getAttribute('data-section');
+                    let target;
+                    
+                    if (sectionId === 'home') {
+                        target = 0;
+                    } else {
+                        target = document.getElementById(sectionId).offsetTop - 80;
+                    }
+    
+                    window.scrollTo({
+                        top: target,
+                        behavior: 'smooth'
+                    });
+    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+    
+            // Logo click to scroll to top
+            document.querySelector('.logo').addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+    
+            // Add stagger animation delay to cards
+            document.querySelectorAll('.skills-grid .skill-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+    
+            document.querySelectorAll('.projects-grid .project-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+    
+            document.querySelectorAll('.achievements-grid .achievement-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+    
+            document.querySelectorAll('.certifications-grid .certification-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+    
+            // Smooth reveal animation on page load
+            document.addEventListener('DOMContentLoaded', () => {
+                document.body.style.opacity = '0';
+                requestAnimationFrame(() => {
+                    document.body.style.transition = 'opacity 0.5s ease';
+                    document.body.style.opacity = '1';
+                });
+            });
+        </script>
+    </body>
+    </html>
